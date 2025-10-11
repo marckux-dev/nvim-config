@@ -1,7 +1,6 @@
 -- =======================================
 -- Insert mode mappings
 -- =======================================
-
 vim.keymap.set("i", "(", "()<Esc>i")
 vim.keymap.set("i", "[", "[]<Esc>i")
 vim.keymap.set("i", "{", "{}<Esc>i")
@@ -15,8 +14,6 @@ vim.keymap.set("n", "<leader>ww", ":w<CR>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>wa", ":wa<CR>", { desc = "Save all files" })
 vim.keymap.set("n", "<leader>wqq", ":wq<CR>", { desc = "Save & quit" })
 vim.keymap.set("n", "<leader>wqa", ":wqa<CR>", { desc = "Save all & quit" })
-vim.keymap.set("n", "<leader>er", ":e .<CR>", { desc = "Open current directory" })
-vim.keymap.set("n", "<leader>ee", ":e %:h<CR>", { desc = "Open directory of current file" })
 
 -- ==========================
 --  Macros
@@ -41,6 +38,15 @@ vim.keymap.set("n", "<leader>th", ":-tabmove<CR>", { desc = "Move tab left" })
 vim.keymap.set("n", "<leader>tl", ":+tabmove<CR>", { desc = "Move tab right" })
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<leader>bp", ":bp<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "Delete buffer" })
+
+-- ==========================
+--  Wrappers
+-- ==========================
+vim.keymap.set("v", "<leader>w{", "c{<C-r>\"}<Esc>", { desc = "Wrap with {}" })
+vim.keymap.set("v", "<leader>w(", "c(<C-r>\")<Esc>", { desc = "Wrap with ()" })
+vim.keymap.set("v", "<leader>w[", "c[<C-r>\"]<Esc>", { desc = "Wrap with []" })
+
 
 -- =======================================
 -- Toggle CWD
