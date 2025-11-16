@@ -9,7 +9,8 @@ return {
 		local mason_path = home .. "/.local/share/nvim/mason/packages/jdtls"
 		local lombok_path = home .. "/.local/share/lombok.jar"
 		local config_path = mason_path .. "/config_linux"
-		local launcher_path = mason_path .. "/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar"
+		-- local launcher_path = mason_path .. "/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar"
+		local launcher_path = mason_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"
 
 		-- Detect project root (gradle, maven or git)
 		local root_markers = { "gradlew", "mvnw", ".git" }
@@ -23,7 +24,7 @@ return {
 			vim.notify("⚠️ Lombok jar not found at " .. lombok_path, vim.log.levels.WARN)
 		end
 
-		-- Full JDTLS command
+		-- Full JDTLS commands
 		local cmd = {
       "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
 			"-Declipse.application=org.eclipse.jdt.ls.core.id1",
