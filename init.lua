@@ -3,6 +3,7 @@
 require("basic")
 require("keymappings")
 require("commands")
+require("snippets")
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

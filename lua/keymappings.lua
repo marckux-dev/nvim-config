@@ -1,9 +1,24 @@
+local function t(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
 -- =======================================
 -- Insert mode mappings
 -- =======================================
 vim.keymap.set("i", "(", "()<Esc>i")
 vim.keymap.set("i", "[", "[]<Esc>i")
 vim.keymap.set("i", "{", "{}<Esc>i")
+-- Motions
+-- Move cursor in insert mode using Ctrl + h/j/k/l
+vim.keymap.set('i', '<C-h>', '<Left>',  { desc = 'Move left in insert mode' })
+vim.keymap.set('i', '<C-j>', '<Down>',  { desc = 'Move down in insert mode' })
+vim.keymap.set('i', '<C-k>', '<Up>',    { desc = 'Move up in insert mode' })
+vim.keymap.set('i', '<C-l>', '<Right>', { desc = 'Move right in insert mode' })
+-- Insert characters at the end of the current line
+vim.keymap.set('i', '<A-;>', t('<Esc>A;'), { desc = 'Insert semicolon at the end of line'});
+vim.keymap.set('i', '<A-,>', t('<Esc>A,'), { desc = 'Insert comma at the end of line'});
+vim.keymap.set('i', '<A-.>', t('<Esc>A.'), { desc = 'Insert dot at the end of line'});
+
 
 -- ==========================
 --  Leader Key
@@ -18,9 +33,6 @@ vim.keymap.set("n", "<leader>wqa", ":wqa<CR>", { desc = "Save all & quit" })
 -- ==========================
 --  Macros
 -- ==========================
-local function t(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
 vim.keymap.set("n", "<leader>h", ":noh<CR>", { desc = "Clear search"})
 vim.keymap.set("n", "<leader>{", t("a{<CR>}<Esc>ko"), { desc = "Keys block" })
 vim.keymap.set("n", "<leader>(", t("a(<CR>)<Esc>ko"), { desc = "Parentheses block" })
@@ -33,9 +45,6 @@ vim.keymap.set("n",
 -- ==========================
 --  Tab and Buffer Management
 -- ==========================
-vim.keymap.set("n", "<leader>tt", ":tab ball<CR>", { desc = "Open all buffers in tabs" })
-vim.keymap.set("n", "<leader>th", ":-tabmove<CR>", { desc = "Move tab left" })
-vim.keymap.set("n", "<leader>tl", ":+tabmove<CR>", { desc = "Move tab right" })
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<leader>bp", ":bp<CR>", { desc = "Previous buffer" })
 vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "Delete buffer" })
@@ -61,4 +70,24 @@ function ToggleCWD()
   print("Current directory: " .. vim.fn.getcwd())
 end
 vim.keymap.set("n", "<F5>", ToggleCWD, { desc = "Toggle CWD between initial and file"})
+
+
+-- =======================================
+-- Toggle Catppuccin theme (light/dark)
+-- =======================================
+local current_theme = "mocha"
+
+function ToggleCatppuccinTheme()
+  if current_theme == "mocha" then
+    vim.cmd("colorscheme catppuccin-latte")
+    current_theme = "latte"
+    vim.notify("🌤 Switched to Catppuccin Latte (Light)")
+  else
+    vim.cmd("colorscheme catppuccin-mocha")
+    current_theme = "mocha"
+    vim.notify("🌙 Switched to Catppuccin Mocha (Dark)")
+  end
+end
+
+vim.keymap.set("n", "<leader>ct", ToggleCatppuccinTheme, { desc = "Toggle Catppuccin light/dark" })
 

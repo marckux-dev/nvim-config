@@ -6,8 +6,24 @@ return {
 		null_ls.setup({
 			sources = {
 				null_ls.builtins.formatting.stylua,
+				null_ls.builtins.formatting.prettier.with({
+					filetypes = {
+						"javascript",
+						"typescript",
+						"html",
+						"css",
+						"json",
+						"markdown",
+						"astro",
+						"yaml",
+					},
+					extra_args = { "--print-width", "80" },
+				}),
 			},
 		})
-		vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+		vim.keymap.set("n", "<leader>gf", function()
+			vim.lsp.buf.format()
+			vim.notify("File formatted with Prettier (none-ls)")
+		end, {})
 	end,
 }
