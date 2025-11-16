@@ -15,6 +15,10 @@ return {
 		-- Detect project root (gradle, maven or git)
 		local root_markers = { "gradlew", "mvnw", ".git" }
 		local root_dir = require("jdtls.setup").find_root(root_markers)
+    if not root_dir then
+      vim.notify("jdtls: no project root found, not starting", vim.log.levels.WARN)
+      return
+    end
 
 		-- Create a unique workspace per project
 		local workspace_dir = vim.fn.expand("~/.cache/jdtls-workspace/") .. vim.fn.fnamemodify(root_dir, ":p:h:t")
@@ -36,7 +40,7 @@ return {
 			"-Dosgi.configuration.cascaded=true",
 			"-Xms1g",
 			"-javaagent:" .. lombok_path,
-			-- "-Xbootclasspath/a:" .. lombok_path,
+			"-Xbootclasspath/a:" .. lombok_path,
 			"-jar",
 			launcher_path,
 			"-configuration",

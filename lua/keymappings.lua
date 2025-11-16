@@ -91,3 +91,4 @@ end
 
 vim.keymap.set("n", "<leader>ct", ToggleCatppuccinTheme, { desc = "Toggle Catppuccin light/dark" })
 
+
