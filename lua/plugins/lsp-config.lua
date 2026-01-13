@@ -25,12 +25,9 @@ return {
 					"yamlls",
 					"jsonls",
 					"astro",
+          "rust-analyzer",
 				},
 
-				-- ✅ THIS IS THE FIX
-				-- We define a "handler" for each server.
-				-- By default, we set them all up.
-				-- But for jdtls, we do nothing, which "blocks" lspconfig.
 				handlers = {
 					-- Default handler for all servers *except* jdtls and lua_ls
 					function(server_name)
