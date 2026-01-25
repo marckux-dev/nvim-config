@@ -8,7 +8,7 @@ return {
     keys = {
       {"<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find files"},
       {"<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Live grep"},
-
+      {"<leader>bt", function() require("telescope.builtin").buffers() end, desc = "Find buffers"}, 
     },
 		config = function()
 			local builtin = require("telescope.builtin")

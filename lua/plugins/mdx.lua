@@ -1,5 +1,7 @@
 return {
   "davidmh/mdx.nvim",
-  config = true,
-  dependencies = {"nvim-treesitter/nvim-treesitter"}
+  dependencies = {"nvim-treesitter/nvim-treesitter"},
+  config = function ()
+    -- mdx.nvim does not require explicit setup
+  end,
 }

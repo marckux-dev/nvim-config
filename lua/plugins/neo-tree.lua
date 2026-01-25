@@ -8,6 +8,6 @@ return {
   },
   lazy = false,
   config = function()
-    vim.keymap.set("n", "<leader>nt", ":Neotree filesystem reveal left<CR>", {})
+    vim.keymap.set("n", "<leader>ft", ":Neotree filesystem reveal left<CR>", { desc = "Neotree"})
   end
 }

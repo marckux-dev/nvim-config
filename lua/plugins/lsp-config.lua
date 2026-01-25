@@ -25,7 +25,7 @@ return {
 					"yamlls",
 					"jsonls",
 					"astro",
-          "rust-analyzer",
+					"rust_analyzer",
 				},
 
 				handlers = {
@@ -66,8 +66,8 @@ return {
 			-- Keymaps
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
-			vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show Diagnostic" })
+			vim.keymap.set({ "n", "v" }, "<leader>ea", vim.lsp.buf.code_action, { desc = "Code Actions" })
+			vim.keymap.set("n", "<leader>ee", vim.diagnostic.open_float, { desc = "Show Diagnostic" })
 		end,
 	},
 }

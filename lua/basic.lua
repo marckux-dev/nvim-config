@@ -18,3 +18,5 @@ vim.cmd("highlight ColorColumn ctermbg=236 guibg=#303030")
 
 vim.opt.path:append("**")
 vim.opt.wildmenu = true
+
+vim.opt.splitbelow = true
