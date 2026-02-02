@@ -3,42 +3,28 @@ return {
 	event = "VeryLazy",
 	config = function()
 		local wk = require("which-key")
-		wk.register({
-			w = {
-				name = "Write / Save",
-			},
-			b = {
-				name = "Buffers",
-			},
-			f = {
-				name = "Files",
-			},
-			c = {
-				name = "Catpuccin",
-			},
-			n = {
-				name = "Neotree",
-			},
-			e = {
-				name = "Error",
-			},
-			t = {
-				name = "Test",
-			},
-		}, { prefix = "<leader>", mode = "n" })
-		wk.register({
-			w = {
-				name = "Wrap selection",
-			},
-		}, { prefix = "<leader>", mode = "v" })
+
+		wk.add({
+			{ "<leader>w", group = "Write / Save" },
+			{ "<leader>b", group = "Buffers" },
+			{ "<leader>f", group = "Files" },
+			{ "<leader>c", group = "Catpuccin" },
+			{ "<leader>e", group = "Error / Code" },
+			{ "<leader>t", group = "Test" },
+      { "<leader>d", group = "DAP"},
+			-- Mappings para modo Visual
+			{ "<leader>w", group = "Wrap selection", mode = "v" },
+			-- Mappings para java
+			{ "<leader>j", group = "Java / JDTLS" },
+		})
+
 		wk.setup({
-			window = {
+			win = {
 				border = "rounded",
 			},
 			layout = {
 				spacing = 4,
 			},
-			show_help = true,
 		})
 	end,
 }

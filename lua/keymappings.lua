@@ -88,4 +88,15 @@ function ToggleCatppuccinTheme()
 	end
 end
 
+-- ==========================
+--  Diccionario / Spell
+-- ==========================
+vim.keymap.set("n", "<leader>sr", ":ObsidianRefresh<CR>", {
+	silent = true,
+	desc = "Sincronizar diccionario Obsidian",
+})
+
+-- ==========================
+--  Toggle Catppuccin
+-- ==========================
 vim.keymap.set("n", "<leader>ct", ToggleCatppuccinTheme, { desc = "Toggle Catppuccin light/dark" })

@@ -8,3 +8,4 @@ vim.opt_local.spelllang = "es"
 
 -- (Opcional) Si tienes un archivo de texto con palabras personalizadas:
 -- vim.opt_local.dictionary:append("/usr/share/dict/spanish")
+vim.opt_local.spellfile = vim.fn.stdpath("config") .. "/spell/obsidian-es.utf-8.add"
