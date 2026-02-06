@@ -9,7 +9,24 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
 		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      -- PARCHE DE EMERGENCIA:
+    if not vim.lsp.enable then
+        vim.lsp.enable = function(server_name, enabled)
+            if enabled then
+                -- Si no existe la función, intentamos el método antiguo
+                require("lspconfig")[server_name].setup({})
+            end
+        end
+    end
+       -- PARCHE DE EMERGENCIA:
+    if not vim.lsp.enable then
+        vim.lsp.enable = function(server_name, enabled)
+            if enabled then
+                -- Si no existe la función, intentamos el método antiguo
+                require("lspconfig")[server_name].setup({})
+            end
+        end
+    end
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {
