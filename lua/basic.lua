@@ -1,4 +1,3 @@
-
 -- =======================================
 -- Basic settings
 -- =======================================
@@ -20,3 +19,11 @@ vim.opt.path:append("**")
 vim.opt.wildmenu = true
 
 vim.opt.splitbelow = true
+
+-- Al final de lua/basic.lua
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.zsh", ".zshrc", ".zprofile", "*.sh" },
+  callback = function()
+    vim.bo.filetype = "sh"
+  end,
+})
