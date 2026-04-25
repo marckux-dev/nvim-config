@@ -44,5 +44,6 @@ return {
 			},
 			indent = { enable = true },
 		})
+		vim.treesitter.language.register("typescript", "ts")
 	end,
 }
