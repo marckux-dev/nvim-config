@@ -51,6 +51,7 @@ return {
 		"tpope/vim-fugitive",
 		cmd = { "Git", "Gdiffsplit", "Gread", "Gwrite", "Ggrep", "GMove", "GDelete" },
 		keys = {
+			{ "<leader>ga",  "<cmd>Git add .<CR>",         desc = "Git add ." },
 			{ "<leader>gg",  "<cmd>Git<CR>",               desc = "Git status (Fugitive)" },
 			{ "<leader>gc",  "<cmd>Git commit<CR>",        desc = "Git commit" },
 			{ "<leader>gl",  "<cmd>Git log --oneline<CR>", desc = "Git log (oneline)" },

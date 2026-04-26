@@ -37,6 +37,7 @@ vim.keymap.set("n", "<leader>wqa", ":wqa<CR>", { desc = "Save all & quit" })
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<leader>bp", ":bp<CR>", { desc = "Previous buffer" })
 vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "Delete buffer" })
+vim.keymap.set("n", "<leader>qq", ":q<CR>",  { desc = "Cerrar ventana" })
 vim.keymap.set("n", "<Tab>", ":bn<CR>", { desc = "Next buffer"})
 vim.keymap.set("n", "<S-Tab>", ":bp<CR>", { desc = "Previous buffer" })
 

@@ -53,6 +53,7 @@ Configuración personalizada de Neovim optimizada para desarrollo en **Java (Spr
 | `<leader>bn` / `<Tab>` | Siguiente buffer |
 | `<leader>bp` / `<S-Tab>` | Buffer anterior |
 | `<leader>bd` | Eliminar buffer actual |
+| `<leader>qq` | Cerrar ventana |
 | `<Esc><Esc>` | Limpiar resaltado de búsqueda |
 | `<F5>` | Alternar CWD entre el inicial y el del archivo actual |
 | `<leader>ct` | Cambiar tema Catppuccin (Claro ↔ Oscuro) |
@@ -133,6 +134,7 @@ Configuración personalizada de Neovim optimizada para desarrollo en **Java (Spr
 
 | Atajo | Acción |
 | :--- | :--- |
+| `<leader>ga` | Git add . (stagear todo) |
 | `<leader>gg` | Git status |
 | `<leader>gc` | Git commit |
 | `<leader>gl` | Git log (oneline) |
