@@ -13,6 +13,7 @@ Configuración personalizada de Neovim optimizada para desarrollo en **Java (Spr
 - **Sintaxis:** Treesitter para resaltado avanzado de ~20 lenguajes.
 - **Depuración:** DAP con interfaz gráfica (`nvim-dap-ui`).
 - **Testing:** `vim-test` con integración TMUX.
+- **Git:** Gitsigns para decoraciones en el gutter y Fugitive como interfaz completa de Git.
 - **Escritura:** Corrector ortográfico Español/Inglés sincronizado con Obsidian.
 
 ---
@@ -110,6 +111,38 @@ Configuración personalizada de Neovim optimizada para desarrollo en **Java (Spr
 | `<leader>dx` | Cerrar interfaz DAP |
 | `<leader>dr` | Abrir consola REPL |
 
+### Git — Hunks (Gitsigns)
+
+| Atajo | Acción |
+| :--- | :--- |
+| `<leader>ghn` | Siguiente hunk |
+| `<leader>ghp` | Hunk anterior |
+| `<leader>ghs` | Stage hunk (normal y visual) |
+| `<leader>ghS` | Stage buffer completo |
+| `<leader>ghu` | Deshacer stage hunk |
+| `<leader>ghr` | Resetear hunk |
+| `<leader>ghR` | Resetear buffer |
+| `<leader>ghb` | Blame de la línea actual |
+| `<leader>ghB` | Blame completo |
+| `<leader>ghd` | Diff contra index |
+| `<leader>ghD` | Diff contra último commit |
+| `<leader>gtb` | Toggle blame en línea |
+| `<leader>gtd` | Toggle mostrar líneas eliminadas |
+
+### Git — Comandos (Fugitive)
+
+| Atajo | Acción |
+| :--- | :--- |
+| `<leader>gg` | Git status |
+| `<leader>gc` | Git commit |
+| `<leader>gl` | Git log (oneline) |
+| `<leader>gL` | Git log completo |
+| `<leader>gpp` | Git push |
+| `<leader>gpl` | Git pull |
+| `<leader>gfe` | Git fetch |
+| `<leader>gw` | Git add (archivo actual) |
+| `<leader>gde` | Git diff split |
+
 ---
 
 ## Java (JDTLS)
@@ -203,6 +236,7 @@ Configuración en `ftplugin/markdown.lua` para archivos `.md`.
 │       ├── none-ls.lua
 │       ├── sorround.lua
 │       ├── beacon.lua
+│       ├── git.lua
 │       └── mdx.lua
 ├── ftplugin/
 │   ├── java.lua              # JDTLS + Lombok + atajos Java
