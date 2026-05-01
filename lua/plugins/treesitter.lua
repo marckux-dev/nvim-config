@@ -28,6 +28,7 @@ return {
         "dart",
         "rust",
         "toml",
+        "python",
 			},
 			sync_install = false,
 			auto_install = true,

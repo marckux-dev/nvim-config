@@ -9,20 +9,9 @@ return {
     "mason-org/mason-lspconfig.nvim",
     dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
     config = function()
-      -- PARCHE DE EMERGENCIA:
       if not vim.lsp.enable then
         vim.lsp.enable = function(server_name, enabled)
           if enabled then
-            -- Si no existe la función, intentamos el método antiguo
-            require("lspconfig")[server_name].setup({})
-          end
-        end
-      end
-      -- PARCHE DE EMERGENCIA:
-      if not vim.lsp.enable then
-        vim.lsp.enable = function(server_name, enabled)
-          if enabled then
-            -- Si no existe la función, intentamos el método antiguo
             require("lspconfig")[server_name].setup({})
           end
         end
@@ -46,6 +35,7 @@ return {
           "jsonls",
           "astro",
           "rust_analyzer",
+          "pyright",
         },
 
         handlers = {
@@ -75,6 +65,37 @@ return {
                   workspace = { checkThirdParty = false },
                 },
               },
+            })
+          end,
+
+          -- Python LSP with venv detection
+          ["pyright"] = function()
+            require("lspconfig").pyright.setup({
+              capabilities = capabilities,
+              settings = {
+                pyright = { autoImportCompletion = true },
+                python = {
+                  analysis = {
+                    autoSearchPaths = true,
+                    diagnosticMode = "openFilesOnly",
+                    useLibraryCodeForTypes = true,
+                    typeCheckingMode = "basic",
+                  },
+                },
+              },
+              on_new_config = function(config, root_dir)
+                -- Detect .venv, venv, or env in project root
+                local venv_paths = { ".venv", "venv", "env", ".env" }
+                for _, venv in ipairs(venv_paths) do
+                  local venv_python = root_dir .. "/" .. venv .. "/bin/python"
+                  if vim.fn.executable(venv_python) == 1 then
+                    config.settings.python.pythonPath = venv_python
+                    return
+                  end
+                end
+                -- Fall back to system python
+                config.settings.python.pythonPath = vim.fn.exepath("python3") or vim.fn.exepath("python") or "python"
+              end,
             })
           end,
 
