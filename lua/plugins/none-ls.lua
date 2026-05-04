@@ -25,9 +25,8 @@ return {
 				}),
 			},
 		})
-		vim.keymap.set("n", "<leader>s", function()
+		vim.keymap.set("n", "<leader>ef", function()
 			vim.lsp.buf.format()
-			vim.notify("File formatted with Prettier (none-ls)")
-		end, { desc = "Styling"})
+		end, { desc = "Format file" })
 	end,
 }

@@ -10,9 +10,7 @@ return {
       {"<leader>fg", function() require("telescope.builtin").live_grep() end, desc = "Live grep"},
       {"<leader>bt", function() require("telescope.builtin").buffers() end, desc = "Find buffers"}, 
     },
-		config = function()
-			local builtin = require("telescope.builtin")
-		end,
+		config = function() end,
 	},
 	{
 		"nvim-telescope/telescope-ui-select.nvim",

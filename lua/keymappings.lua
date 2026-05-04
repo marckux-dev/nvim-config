@@ -5,9 +5,29 @@ end
 -- =======================================
 -- Insert mode mappings
 -- =======================================
-vim.keymap.set("i", "(", "()<Esc>i")
-vim.keymap.set("i", "[", "[]<Esc>i")
-vim.keymap.set("i", "{", "{}<Esc>i")
+local function pair_open(open, close)
+  return function()
+    return open .. close .. "<C-g>U<Left>"
+  end
+end
+
+local function pair_close(close)
+  return function()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local next_char = vim.api.nvim_get_current_line():sub(col + 1, col + 1)
+    if next_char == close then
+      return "<C-g>U<Right>"
+    end
+    return close
+  end
+end
+
+vim.keymap.set("i", "(", pair_open("(", ")"), { expr = true })
+vim.keymap.set("i", "[", pair_open("[", "]"), { expr = true })
+vim.keymap.set("i", "{", pair_open("{", "}"), { expr = true })
+vim.keymap.set("i", ")", pair_close(")"), { expr = true })
+vim.keymap.set("i", "]", pair_close("]"), { expr = true })
+vim.keymap.set("i", "}", pair_close("}"), { expr = true })
 -- Motions
 -- Move cursor in insert mode using Ctrl + h/j/k/l
 vim.keymap.set("i", "<C-h>", "<Left>", { desc = "Move left in insert mode" })

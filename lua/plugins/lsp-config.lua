@@ -9,14 +9,6 @@ return {
     "mason-org/mason-lspconfig.nvim",
     dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
     config = function()
-      if not vim.lsp.enable then
-        vim.lsp.enable = function(server_name, enabled)
-          if enabled then
-            require("lspconfig")[server_name].setup({})
-          end
-        end
-      end
-
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       require("mason-lspconfig").setup({
@@ -117,6 +109,7 @@ return {
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
       vim.keymap.set({ "n", "v" }, "<leader>ea", vim.lsp.buf.code_action, { desc = "Code Actions" })
       vim.keymap.set("n", "<leader>ee", vim.diagnostic.open_float, { desc = "Show Diagnostic" })
+      vim.keymap.set("n", "<leader>er", vim.lsp.buf.rename, { desc = "Rename symbol" })
     end,
   },
 }

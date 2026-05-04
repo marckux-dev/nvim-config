@@ -83,26 +83,3 @@ return {
 		end, { desc = "Abrir REPL (Consola de salida)" })
 	end,
 }
---return {
---  "mfussenegger/nvim-dap",
---  dependencies = {
---    "rcasia/neotest-java",
---    "rcarriga/nvim-dap-ui",
---    "nvim-neotest/nvim-nio",
---  },
---  config = function ()
---    local dap = require("dap")
---    local dapui = require("dapui")
---    dapui.setup()
---    dap.listeners.after.event_intialized["dapui_config"] = function ()
---      dapui.open()
---    end
---    dap.listeners.before.event_terminated["dapui_config"] = function ()
---      dapui.close()
---    end
---    dap.listeners.before.event_exited["dapui_config"] = function ()
---      dapui.close()
---    end
---  end,
---  vim.keymap.set("n", "<leader>dc", function() require("dap").repl.open() end, { desc = "Abrir REPL (Consola de salida)" })
---}

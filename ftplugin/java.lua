@@ -1,10 +1,7 @@
 local jdtls = require("jdtls")
 local home = os.getenv("HOME")
 
--- 1. DEBUG: Print to messages to prove this file ran
-vim.notify("🛠️ Custom Java Config Loaded!", vim.log.levels.INFO)
-
--- 2. Locate Paths
+-- Locate Paths
 local mason_base = vim.fn.stdpath("data") .. "/mason" -- Cambiado de mason_path a mason_base
 local jdtls_path = mason_base .. "/packages/jdtls"
 local lombok_path = vim.fn.expand("~/.local/share/lombok/lombok.jar")
@@ -42,16 +39,9 @@ if test_jars ~= "" then
     table.insert(bundles, jar)
   end
 end
----
-
--- 3. NOTIFICACIÓN DE DIAGNÓSTICO
-vim.schedule(function()
-  if #bundles == 0 then
-    vim.notify("⚠️ ERROR CRÍTICO: Bundles es 0. Revisa: " .. mason_base .. "/share/", vim.log.levels.ERROR)
-  else
-    vim.notify("✅ JDTLS Bundles cargados: " .. #bundles, vim.log.levels.INFO)
-  end
-end)
+if #bundles == 0 then
+  vim.notify("JDTLS: no se encontraron bundles en " .. mason_base .. "/share/", vim.log.levels.WARN)
+end
 
 -- 4. Locate Java (SDKMAN! Integration)
 local java_bin = home .. "/.sdkman/candidates/java/current/bin/java"

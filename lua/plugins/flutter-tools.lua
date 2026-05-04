@@ -63,9 +63,9 @@ return {
 				-- Configuración específica para Dart
 				settings = {
 					showTodos = true,
-					completeFuctionCalls = true,
-					renameFilesWithClasses = "prompt", -- Preguntar si renombrar clase al renombrar archivo
-					enableSnipets = true,
+					completeFunctionCalls = true,
+					renameFilesWithClasses = "prompt",
+					enableSnippets = true,
 				},
 				-- Atajos de teclado sólo para Dart / Flutter
 				on_attach = function(client, bufnr)

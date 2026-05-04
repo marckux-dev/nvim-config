@@ -1,8 +1,6 @@
 -- =======================================
 -- Basic settings
 -- =======================================
-vim.opt.compatible = false
-vim.opt.syntax = "enable"
 vim.cmd("filetype plugin on")
 
 vim.opt.number = true
@@ -19,6 +17,7 @@ vim.opt.path:append("**")
 vim.opt.wildmenu = true
 
 vim.opt.splitbelow = true
+vim.opt.splitright = true
 
 -- Al final de lua/basic.lua
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
