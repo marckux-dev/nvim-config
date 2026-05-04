@@ -17,6 +17,16 @@ return {
       local cmp = require("cmp")
       local luasnip = require("luasnip")
 
+      -- Completion para buffers de vim-dadbod-ui (SQL queries)
+      cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
+        sources = cmp.config.sources({
+          { name = "vim-dadbod-completion", priority = 1000 },
+          { name = "nvim_lsp",             priority = 800 },
+          { name = "luasnip",              priority = 750 },
+          { name = "buffer",               priority = 500 },
+        }),
+      })
+
       -- Configuración del diccionario de texto plano
       require("cmp_dictionary").setup({
         paths = { vim.fn.expand("~/.config/nvim/spell/obsidian-es.utf-8.add") },

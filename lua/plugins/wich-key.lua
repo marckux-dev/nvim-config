@@ -22,6 +22,7 @@ return {
 			{ "<leader>g", group = "Git (visual)", mode = "v" },
 			-- Mappings para java
 			{ "<leader>j", group = "Java / JDTLS" },
+			{ "<leader>D", group = "Database (dadbod)" },
 		})
 
 		wk.setup({
