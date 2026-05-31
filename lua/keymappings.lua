@@ -71,7 +71,7 @@ vim.keymap.set("n", "<S-Tab>", ":bp<CR>", { desc = "Previous buffer" })
 --- =========================
 --- Copy to clipboard
 --- =========================
-vim.keymap.set("n", "<leader>y", ":w !wslclip<CR>", { desc = "To Clipboard" })
+--- vim.keymap.set("n", "<leader>y", ":w !wslclip<CR>", { desc = "To Clipboard" })
 vim.keymap.set("v", "<leader>y", ":'<'>w !wslclip<CR>", { desc = "Copy selection to Windows Clipboard" })
 
 -- ==========================
