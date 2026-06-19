@@ -6,6 +6,20 @@ return {
     end,
   },
   {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "mason-org/mason.nvim" },
+    config = function()
+      require("mason-tool-installer").setup({
+        -- Formatters/linters used by none-ls (not LSP servers).
+        ensure_installed = {
+          "prettier",
+          "stylua",
+          "black",
+        },
+      })
+    end,
+  },
+  {
     "mason-org/mason-lspconfig.nvim",
     dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
     config = function()
@@ -28,6 +42,7 @@ return {
           "astro",
           "rust_analyzer",
           "pyright",
+          "emmet_language_server",
         },
 
         handlers = {

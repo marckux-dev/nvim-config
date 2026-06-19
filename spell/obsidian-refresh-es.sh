@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-VAULT="/mnt/d/obsidian-vault/Marckux-Vault"
+VAULT="/mnt/d/obsidian-vault/"
 SPELL="$HOME/.config/nvim/spell/obsidian-es.utf-8.add"
 DICT="es_ES"
 

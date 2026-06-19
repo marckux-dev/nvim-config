@@ -2,6 +2,9 @@ return {
   "milanglacier/minuet-ai.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufReadPre", "BufNewFile" },
+  keys = {
+    { "<leader>am", "<cmd>Minuet virtualtext toggle<cr>", desc = "Toggle Minuet ghost text" },
+  },
   config = function()
     require("minuet").setup({
       provider = "gemini",

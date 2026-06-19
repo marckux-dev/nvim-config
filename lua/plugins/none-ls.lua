@@ -21,7 +21,9 @@ return {
 						"astro",
 						"yaml",
 					},
-					extra_args = { "--print-width", "80" },
+					-- --prose-wrap always reflows long lines in Markdown/MDX
+					-- (ignored by other filetypes); code fences are left untouched.
+					extra_args = { "--print-width", "80", "--prose-wrap", "always" },
 				}),
 			},
 		})

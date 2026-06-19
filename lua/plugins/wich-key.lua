@@ -24,6 +24,7 @@ return {
 			{ "<leader>j", group = "Java / JDTLS" },
 			{ "<leader>J", group = "Jupyter" },
 			{ "<leader>D", group = "Database (dadbod)" },
+			{ "<leader>l", group = "LaTeX (VimTeX)" },
 		})
 
 		wk.setup({

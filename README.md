@@ -2,6 +2,8 @@
 
 Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**, **Web (Angular, Astro)**, **Python/Jupyter**, **Rust** y toma de notas en **Markdown** con diccionario en español.
 
+
+
 > **Tecla líder:** `<Space>`  
 > **Gestor de plugins:** `lazy.nvim`  
 > **Versión mínima:** Neovim 0.10+
@@ -21,10 +23,11 @@ Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**
 9. [Java (JDTLS)](#java-jdtls)
 10. [Flutter / Dart](#flutter--dart)
 11. [Jupyter / Python](#jupyter--python)
-12. [Notas y Markdown](#notas-y-markdown)
-13. [Comandos de usuario](#comandos-de-usuario)
-14. [Estructura del repositorio](#estructura-del-repositorio)
-15. [Dependencias del entorno](#dependencias-del-entorno)
+12. [LaTeX (VimTeX)](#latex-vimtex)
+13. [Notas y Markdown](#notas-y-markdown)
+14. [Comandos de usuario](#comandos-de-usuario)
+15. [Estructura del repositorio](#estructura-del-repositorio)
+16. [Dependencias del entorno](#dependencias-del-entorno)
 
 ---
 
@@ -45,6 +48,7 @@ Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**
 | YAML / JSON | yamlls, jsonls | Prettier | ✓ |
 | XML | lemminx | — | — |
 | Markdown / MDX | — | Prettier | ✓ |
+| LaTeX | VimTeX | latexmk | ✓ |
 | SQL | — | — | ✓ |
 | Tailwind CSS | tailwindcss | — | — |
 
@@ -322,6 +326,37 @@ El kernel usa el virtualenv en `~/.venv/jupyter/`. Inicializar con `<leader>ji` 
 
 ---
 
+## LaTeX (VimTeX)
+
+Integración con **VimTeX** (`lervag/vimtex`). Configurado en `lua/plugins/vimtex.lua`.
+
+Al abrir cualquier archivo `.tex`, **latexmk** arranca automáticamente en modo continuo: el PDF se recompila cada vez que guardas el buffer. **Zathura** es el visor por defecto.
+
+**Flujo típico:**
+
+1. Abre un `.tex` → la compilación arranca sola (`:VimtexCompile` se invoca por autocomando).
+2. Pulsa `<leader>lv` para abrir Zathura con el PDF.
+3. Edita y guarda (`:w`) → el PDF se actualiza en segundo plano.
+
+### Keymaps (sólo en buffers `.tex`)
+
+| Atajo | Acción |
+|:---|:---|
+| `<leader>ll` | Toggle compilación continua (`:VimtexCompile`) |
+| `<leader>lv` | Abrir / enfocar PDF en Zathura (`:VimtexView`) |
+| `<leader>ls` | Detener compilador (`:VimtexStop`) |
+| `<leader>lc` | Limpiar artefactos auxiliares (`:VimtexClean`) |
+| `<leader>le` | Ver errores de compilación (`:VimtexErrors`) |
+| `<leader>lt` | Toggle tabla de contenidos (`:VimtexTocToggle`) |
+
+### Opciones de latexmk
+
+Pasadas en `g:vimtex_compiler_latexmk`: `-pdf -synctex=1 -file-line-error -interaction=nonstopmode -verbose`. El SyncTeX queda activo para forward-search.
+
+> **Nota WSL2/Wayland:** el aviso `Viewer cannot find Zathura window ID` puede aparecer porque `xdotool` no localiza la ventana bajo Wayland. No impide compilar ni visualizar — sólo limita el forward-search (saltar del cursor en `.tex` a la línea exacta del PDF).
+
+---
+
 ## Notas y Markdown
 
 Configuración en `ftplugin/markdown.lua`. Se activa automáticamente en archivos `.md`.
@@ -393,6 +428,7 @@ El script `spell/obsidian-refresh-es.sh` extrae palabras del vault y actualiza e
 │       ├── telescope.lua       # Búsqueda fuzzy
 │       ├── treesitter.lua      # Resaltado sintáctico
 │       ├── vimtest.lua         # vim-test + vimux
+│       ├── vimtex.lua          # LaTeX + Zathura + latexmk
 │       └── wich-key.lua        # Grupos de keymaps con popup
 ├── ftplugin/
 │   ├── java.lua                # JDTLS + Lombok + keymaps Java
@@ -416,3 +452,5 @@ El script `spell/obsidian-refresh-es.sh` extrae palabras del vault y actualiza e
 | ctags | Comando `:MakeTags` | en `$PATH` |
 | prettier | Formateo web, YAML, JSON, Markdown | en `$PATH` |
 | api-test.zsh | `<leader>ty` para tests YAML | en `$PATH` |
+| latexmk | Compilador continuo para VimTeX | en `$PATH` |
+| Zathura | Visor PDF para VimTeX (con soporte SyncTeX) | en `$PATH` |
