@@ -24,10 +24,11 @@ Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**
 10. [Flutter / Dart](#flutter--dart)
 11. [Jupyter / Python](#jupyter--python)
 12. [LaTeX (VimTeX)](#latex-vimtex)
-13. [Notas y Markdown](#notas-y-markdown)
-14. [Comandos de usuario](#comandos-de-usuario)
-15. [Estructura del repositorio](#estructura-del-repositorio)
-16. [Dependencias del entorno](#dependencias-del-entorno)
+13. [Emmet (HTML / CSS)](#emmet-html--css)
+14. [Notas y Markdown](#notas-y-markdown)
+15. [Comandos de usuario](#comandos-de-usuario)
+16. [Estructura del repositorio](#estructura-del-repositorio)
+17. [Dependencias del entorno](#dependencias-del-entorno)
 
 ---
 
@@ -357,6 +358,32 @@ Pasadas en `g:vimtex_compiler_latexmk`: `-pdf -synctex=1 -file-line-error -inter
 
 ---
 
+## Emmet (HTML / CSS)
+
+Soporte Emmet en dos capas complementarias:
+
+- **`emmet_language_server`** (LSP, vía Mason) — ofrece las abreviaturas dentro del popup de **nvim-cmp** mientras escribes. Configurado en `lua/plugins/lsp-config.lua`.
+- **`mattn/emmet-vim`** (`lua/plugins/emmet.lua`) — añade los atajos clásicos para **expandir** una abreviatura existente y, sobre todo, para **envolver** una selección con una etiqueta (algo que el LSP no expone de forma fiable como code action).
+
+**Filetypes activos:** `html`, `css`, `scss`, `sass`, `less`, `astro`, `vue`, `svelte`, `typescriptreact`, `javascriptreact`, `xml`.
+
+### Atajos
+
+| Atajo | Modo | Acción |
+|:---|:---:|:---|
+| `<C-y>,` | N / I | Expandir la abreviatura bajo el cursor (p. ej. `ul>li*3` → `<ul><li></li>…</ul>`) |
+| `<C-y>,` | V | Envolver la selección con la abreviatura que pidas (p. ej. selecciona y escribe `section.hero>div.container`) |
+
+> El leader interno de Emmet es `<C-y>` (Ctrl-y) — distinto de `<leader>y`, que sigue copiando al portapapeles de Windows.
+
+**Flujo "wrap with tag":**
+
+1. Selecciona en modo visual el bloque a envolver.
+2. Pulsa `<C-y>,` — emmet-vim pide la abreviatura en la línea de comandos.
+3. Escribe (`div.card`, `nav>ul>li*3>a`, etc.) y `<CR>`.
+
+---
+
 ## Notas y Markdown
 
 Configuración en `ftplugin/markdown.lua`. Se activa automáticamente en archivos `.md`.
@@ -415,6 +442,7 @@ El script `spell/obsidian-refresh-es.sh` extrae palabras del vault y actualiza e
 │       ├── completion.lua      # nvim-cmp + LuaSnip + fuentes
 │       ├── dadbod.lua          # Cliente de base de datos
 │       ├── dap.lua             # Depurador + UI
+│       ├── emmet.lua           # Emmet (mattn/emmet-vim) — atajos y wrap
 │       ├── flutter-tools.lua   # LSP Dart + hot reload TMUX
 │       ├── git.lua             # Gitsigns + Fugitive
 │       ├── jdtls.lua           # Spec lazy para nvim-jdtls
