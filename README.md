@@ -25,10 +25,11 @@ Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**
 11. [Jupyter / Python](#jupyter--python)
 12. [LaTeX (VimTeX)](#latex-vimtex)
 13. [Emmet (HTML / CSS)](#emmet-html--css)
-14. [Notas y Markdown](#notas-y-markdown)
-15. [Comandos de usuario](#comandos-de-usuario)
-16. [Estructura del repositorio](#estructura-del-repositorio)
-17. [Dependencias del entorno](#dependencias-del-entorno)
+14. [Asistencia IA (Minuet + Ollama)](#asistencia-ia-minuet--ollama)
+15. [Notas y Markdown](#notas-y-markdown)
+16. [Comandos de usuario](#comandos-de-usuario)
+17. [Estructura del repositorio](#estructura-del-repositorio)
+18. [Dependencias del entorno](#dependencias-del-entorno)
 
 ---
 
@@ -384,6 +385,42 @@ Soporte Emmet en dos capas complementarias:
 
 ---
 
+## Asistencia IA (Minuet + Ollama)
+
+Completado de código por IA mediante **minuet-ai.nvim** con backend local **Ollama**. Configurado en `lua/plugins/minuet.lua`.
+
+- **Modelo:** `qwen2.5-coder:7b` (servido en `http://localhost:11434`), soporta FIM (fill-in-middle).
+- **Provider:** `openai_fim_compatible` (Ollama expone endpoint OpenAI compatible).
+- **Auto-trigger en:** `java`, `python`, `lua`, `javascript`, `typescript`. Otros filetypes: invocar manualmente con el toggle.
+
+Las sugerencias aparecen como **ghost text** (virtual text) tras escribir, sin interferir con el popup de nvim-cmp (`show_on_completion_menu = true`).
+
+### Atajos (modo insertar)
+
+| Atajo | Acción |
+|:---|:---|
+| `<M-y>` | Aceptar la sugerencia completa |
+| `<M-l>` | Aceptar sólo la primera línea |
+| `<M-]>` | Siguiente sugerencia |
+| `<M-[>` | Sugerencia anterior |
+| `<M-e>` | Descartar sugerencia |
+
+### Toggle global
+
+| Atajo | Acción |
+|:---|:---|
+| `<leader>am` | Activar / desactivar ghost text en el buffer actual |
+
+**Requisitos:** `ollama serve` corriendo y el modelo descargado (`ollama pull qwen2.5-coder:7b`). Verificación rápida de FIM:
+
+```sh
+curl -s -X POST http://localhost:11434/v1/completions \
+  -H 'Content-Type: application/json' \
+  -d '{"model":"qwen2.5-coder:7b","prompt":"def fib(n):\n    return ","suffix":"\n\nprint(fib(10))","max_tokens":30}'
+```
+
+---
+
 ## Notas y Markdown
 
 Configuración en `ftplugin/markdown.lua`. Se activa automáticamente en archivos `.md`.
@@ -450,6 +487,7 @@ El script `spell/obsidian-refresh-es.sh` extrae palabras del vault y actualiza e
 │       ├── lsp-config.lua      # Mason + mason-lspconfig + nvim-lspconfig
 │       ├── lualine.lua         # Barra de estado
 │       ├── mdx.lua             # Soporte MDX
+│       ├── minuet.lua          # Completado IA (minuet-ai + Ollama)
 │       ├── neo-tree.lua        # Explorador de archivos
 │       ├── none-ls.lua         # Formatters via null-ls
 │       ├── sorround.lua        # vim-surround
@@ -482,3 +520,5 @@ El script `spell/obsidian-refresh-es.sh` extrae palabras del vault y actualiza e
 | api-test.zsh | `<leader>ty` para tests YAML | en `$PATH` |
 | latexmk | Compilador continuo para VimTeX | en `$PATH` |
 | Zathura | Visor PDF para VimTeX (con soporte SyncTeX) | en `$PATH` |
+| Ollama | Backend local para minuet-ai (completado IA) | `http://localhost:11434` |
+| qwen2.5-coder:7b | Modelo FIM usado por minuet (`ollama pull qwen2.5-coder:7b`) | ~4.7 GB en disco |
