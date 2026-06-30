@@ -114,6 +114,42 @@ return {
           end,
         },
       })
+
+      -- mason-lspconfig v2 usa `vim.lsp.config()` (la tabla `handlers` ya no
+      -- se procesa). Cualquier ajuste a un servidor que ya esté autoenabled
+      -- por Mason debe hacerse vía `vim.lsp.config()` aquí abajo: lo que se
+      -- pase se merge encima de la config que mason-lspconfig instala.
+
+      -- Emmet: extender a .ts/.js planos (HTML embebido en template strings
+      -- de main.ts, innerHTML, etc.) y permitir que arranque en proyectos
+      -- Node sin .git (sólo con package.json).
+      -- En mason-lspconfig v2 la tabla `handlers` no se aplica, así que las
+      -- capabilities de cmp-nvim-lsp hay que registrarlas como default global
+      -- para que todos los servidores autoenabled las hereden.
+      vim.lsp.config("*", {
+        capabilities = capabilities,
+      })
+
+      vim.lsp.config("emmet_language_server", {
+        filetypes = {
+          "astro", "css", "eruby", "html", "htmlangular",
+          "htmldjango", "javascript", "javascriptreact",
+          "less", "pug", "sass", "scss", "svelte",
+          "typescript", "typescriptreact", "vue",
+        },
+        root_markers = { ".git", "package.json", "tsconfig.json" },
+        -- Hace que emmet trate los buffers .ts/.js como si fueran HTML
+        -- (clave para que emita abreviaturas dentro de template strings
+        -- como `document.querySelector(...).innerHTML = \`<div>...\``).
+        init_options = {
+          showSuggestionsAsSnippets = true,
+          showExpandedAbbreviation = "always",
+          includeLanguages = {
+            javascript = "html",
+            typescript = "html",
+          },
+        },
+      })
     end,
   },
   {

@@ -13,10 +13,14 @@ return {
 				null_ls.builtins.formatting.prettier.with({
 					filetypes = {
 						"javascript",
+						"javascriptreact",
 						"typescript",
+						"typescriptreact",
 						"html",
 						"css",
+						"scss",
 						"json",
+						"jsonc",
 						"markdown",
 						"astro",
 						"yaml",

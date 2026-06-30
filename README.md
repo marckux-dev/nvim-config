@@ -1,6 +1,6 @@
 # Configuración de Neovim — Manual de referencia
 
-Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**, **Web (Angular, Astro)**, **Python/Jupyter**, **Rust** y toma de notas en **Markdown** con diccionario en español.
+Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**, **Web (React + Vite, Angular, Astro)**, **Python/Jupyter**, **Rust** y toma de notas en **Markdown** con diccionario en español.
 
 
 
@@ -25,11 +25,12 @@ Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**
 11. [Jupyter / Python](#jupyter--python)
 12. [LaTeX (VimTeX)](#latex-vimtex)
 13. [Emmet (HTML / CSS)](#emmet-html--css)
-14. [Asistencia IA (Minuet + Ollama)](#asistencia-ia-minuet--ollama)
-15. [Notas y Markdown](#notas-y-markdown)
-16. [Comandos de usuario](#comandos-de-usuario)
-17. [Estructura del repositorio](#estructura-del-repositorio)
-18. [Dependencias del entorno](#dependencias-del-entorno)
+14. [React / TypeScript / Vite](#react--typescript--vite)
+15. [Asistencia IA (Minuet + Ollama)](#asistencia-ia-minuet--ollama)
+16. [Notas y Markdown](#notas-y-markdown)
+17. [Comandos de usuario](#comandos-de-usuario)
+18. [Estructura del repositorio](#estructura-del-repositorio)
+19. [Dependencias del entorno](#dependencias-del-entorno)
 
 ---
 
@@ -40,11 +41,12 @@ Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**
 | Java | JDTLS + Lombok | — | ✓ |
 | Dart / Flutter | flutter-tools | — | ✓ |
 | TypeScript / JS | ts_ls + eslint | Prettier | ✓ |
+| React (`.tsx`/`.jsx`) | ts_ls + eslint + emmet | Prettier | ✓ (`tsx`) |
 | Angular | angularls | Prettier | ✓ |
 | Astro | astro | Prettier | ✓ |
 | Python | pyright | black | ✓ |
 | Rust | rust_analyzer | — | ✓ |
-| HTML / CSS | html, cssls | Prettier | — |
+| HTML / CSS | html, cssls | Prettier | ✓ |
 | Lua | lua_ls | Stylua | ✓ |
 | Bash / Zsh | bashls | — | ✓ |
 | YAML / JSON | yamlls, jsonls | Prettier | ✓ |
@@ -87,6 +89,20 @@ Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**
 |:---|:---:|:---|
 | `<leader>y` | N | Copiar archivo al portapapeles de Windows |
 | `<leader>y` | V | Copiar selección al portapapeles de Windows |
+
+### Wrappers — Modo visual
+
+Con texto seleccionado, `<leader>` + carácter de apertura envuelve la selección
+con el par correspondiente.
+
+| Atajo | Acción |
+|:---|:---|
+| `<leader>(` | Envolver con `()` |
+| `<leader>[` | Envolver con `[]` |
+| `<leader>{` | Envolver con `{}` |
+| `<leader>"` | Envolver con `""` |
+| `<leader>'` | Envolver con `''` |
+| `` <leader>` `` | Envolver con `` `` `` |
 
 ### Edición — Modo insertar
 
@@ -385,6 +401,64 @@ Soporte Emmet en dos capas complementarias:
 
 ---
 
+## React / TypeScript / Vite
+
+Stack soportado: **Vite + React + TypeScript**. Configurado en `lua/plugins/react.lua` (atajos y runner npm) y `lua/plugins/lsp-config.lua` (servidores LSP).
+
+**Servidores LSP que se enganchan en `.tsx` / `.jsx`:** `ts_ls`, `eslint`, `emmet_language_server`, más `null-ls` (Prettier) y `tailwindcss` si el proyecto tiene Tailwind. Auto-instalación via Mason: `typescript-language-server`, `vscode-eslint-language-server`, `emmet-language-server`, `tailwindcss-language-server`, `vscode-html-language-server`, `vscode-css-language-server`, `prettier`.
+
+### Plugins añadidos para JSX
+
+- **`nvim-ts-autotag`** — cierra y renombra etiquetas JSX/HTML automáticamente (`<div>` ↔ `</div>` se renombran en pareja).
+- **`nvim-ts-context-commentstring`** — `gcc` usa `{/* */}` dentro de JSX, `//` en TS plano, `/* */` dentro de un bloque CSS embebido, etc.
+
+### Refactors LSP (buffer-local en `js` / `jsx` / `ts` / `tsx`)
+
+Grupo `<leader>ej` (JS/TS refactor):
+
+| Atajo | Acción |
+|:---|:---|
+| `<leader>ejo` | Organize imports (`source.organizeImports.ts`) |
+| `<leader>eja` | Add missing imports |
+| `<leader>ejr` | Remove unused |
+| `<leader>ejf` | Fix all (ts_ls) |
+| `<leader>eje` | ESLint fix all (`source.fixAll.eslint`) |
+
+### Runner npm en TMUX (globales)
+
+Cada atajo abre — o reutiliza — una window de tmux llamada `npm` en el `cwd` actual y manda el comando. Antes envía `C-c` para parar lo que estuviera corriendo:
+
+| Atajo | Comando |
+|:---|:---|
+| `<leader>rd` | `npm run dev` |
+| `<leader>rb` | `npm run build` |
+| `<leader>rl` | `npm run lint` |
+| `<leader>rp` | `npm run preview` |
+| `<leader>rt` | `npm test` |
+| `<leader>ri` | `npm install` |
+| `<leader>rk` | Manda `C-c` a la window `npm` (matar proceso) |
+| `<leader>rc` | Salta al CSS/SCSS hermano del componente (`App.tsx` ↔ `App.css` / `App.module.css` / `App.scss`) |
+
+> Estos atajos son **globales** (no chequean si hay `package.json`), así que funcionan en cualquier proyecto Node con los scripts correspondientes — Vite, Next, Astro, Express con nodemon, etc.
+
+### Flujo típico
+
+```sh
+npm create vite@latest mi-app -- --template react-ts
+cd mi-app && nvim src/App.tsx
+```
+
+1. `<leader>ri` → instala dependencias en la window `npm`.
+2. `<leader>rd` → arranca Vite en `http://localhost:5173/`.
+3. Edita el `.tsx`: ts_ls y eslint dan diagnósticos en vivo, `nvim-ts-autotag` mantiene los tags balanceados, Minuet propone completions con ghost text.
+4. Al guardar, Vite hace HMR automático (`[vite] (client) hmr update /src/App.tsx`).
+
+### Treesitter override para HTML
+
+El parser `html_tags` de `nvim-treesitter` (master archivado) crashea en nvim 0.12.x por la directiva rota `#set-lang-from-mimetype!`. Solución aplicada: `queries/html_tags/injections.scm` en el config del usuario sustituye esa directiva por reglas explícitas (`module`, `text/javascript`, `application/json`, `importmap`, `text/typescript`).
+
+---
+
 ## Asistencia IA (Minuet + Ollama)
 
 Completado de código por IA mediante **minuet-ai.nvim** con backend local **Ollama**. Configurado en `lua/plugins/minuet.lua`.
@@ -490,6 +564,7 @@ El script `spell/obsidian-refresh-es.sh` extrae palabras del vault y actualiza e
 │       ├── minuet.lua          # Completado IA (minuet-ai + Ollama)
 │       ├── neo-tree.lua        # Explorador de archivos
 │       ├── none-ls.lua         # Formatters via null-ls
+│       ├── react.lua           # Autotag JSX + commentstring + atajos npm
 │       ├── sorround.lua        # vim-surround
 │       ├── telescope.lua       # Búsqueda fuzzy
 │       ├── treesitter.lua      # Resaltado sintáctico
@@ -499,6 +574,11 @@ El script `spell/obsidian-refresh-es.sh` extrae palabras del vault y actualiza e
 ├── ftplugin/
 │   ├── java.lua                # JDTLS + Lombok + keymaps Java
 │   └── markdown.lua            # Spell + diccionario Obsidian
+├── queries/
+│   ├── markdown/
+│   │   └── injections.scm     # Override de queries rotas en nvim 0.12.x
+│   └── html_tags/
+│       └── injections.scm     # Override de queries rotas en nvim 0.12.x
 └── spell/
     ├── obsidian-es.utf-8.add   # Diccionario español personalizado
     └── obsidian-refresh-es.sh  # Script de sincronización con Obsidian

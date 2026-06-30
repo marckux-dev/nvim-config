@@ -22,12 +22,34 @@ local function pair_close(close)
   end
 end
 
+-- Para comillas, abrir y cerrar comparten tecla: necesitamos UN solo mapping
+-- que decida según el carácter a la derecha del cursor.
+local function pair_quote(q)
+  return function()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_get_current_line()
+    local next_char = line:sub(col + 1, col + 1)
+    local prev_char = line:sub(col, col)
+    -- Si la siguiente es la misma comilla, saltar sobre ella.
+    if next_char == q then
+      return "<C-g>U<Right>"
+    end
+    -- Evitar autopair tras una letra/dígito (don't, it's, etc.).
+    if prev_char:match("[%w]") then
+      return q
+    end
+    return q .. q .. "<C-g>U<Left>"
+  end
+end
+
 vim.keymap.set("i", "(", pair_open("(", ")"), { expr = true })
 vim.keymap.set("i", "[", pair_open("[", "]"), { expr = true })
 vim.keymap.set("i", "{", pair_open("{", "}"), { expr = true })
 vim.keymap.set("i", ")", pair_close(")"), { expr = true })
 vim.keymap.set("i", "]", pair_close("]"), { expr = true })
 vim.keymap.set("i", "}", pair_close("}"), { expr = true })
+vim.keymap.set("i", "'", pair_quote("'"), { expr = true })
+vim.keymap.set("i", "\"", pair_quote("\""), { expr = true })
 -- Motions
 -- Move cursor in insert mode using Ctrl + h/j/k/l
 vim.keymap.set("i", "<C-h>", "<Left>", { desc = "Move left in insert mode" })
@@ -62,16 +84,26 @@ vim.keymap.set("n", "<Tab>", ":bn<CR>", { desc = "Next buffer"})
 vim.keymap.set("n", "<S-Tab>", ":bp<CR>", { desc = "Previous buffer" })
 
 -- ==========================
---  Wrappers
+--  Wrappers (visual mode)
 -- ==========================
--- vim.keymap.set("v", "<leader>w{", 'c{<C-r>"}<Esc>', { desc = "Wrap with {}" })
--- vim.keymap.set("v", "<leader>w(", 'c(<C-r>")<Esc>', { desc = "Wrap with ()" })
--- vim.keymap.set("v", "<leader>w[", 'c[<C-r>"]<Esc>', { desc = "Wrap with []" })
+-- En selección visual, <leader> + carácter de apertura envuelve el texto.
+-- Usa el registro " (yanked por `c`) para reinsertar la selección entre el
+-- par. `xmap` evita ejecutarse en select mode (donde snippets navegan).
+local function wrap(open, close)
+  return 'c' .. open .. '<C-r>"' .. close .. '<Esc>'
+end
+
+vim.keymap.set("x", "<leader>(", wrap("(", ")"), { desc = "Wrap with ()" })
+vim.keymap.set("x", "<leader>[", wrap("[", "]"), { desc = "Wrap with []" })
+vim.keymap.set("x", "<leader>{", wrap("{", "}"), { desc = "Wrap with {}" })
+vim.keymap.set("x", '<leader>"', wrap('"', '"'), { desc = 'Wrap with ""' })
+vim.keymap.set("x", "<leader>'", wrap("'", "'"), { desc = "Wrap with ''" })
+vim.keymap.set("x", "<leader>`", wrap("`", "`"), { desc = "Wrap with ``" })
 
 --- =========================
 --- Copy to clipboard
 --- =========================
---- vim.keymap.set("n", "<leader>y", ":w !wslclip<CR>", { desc = "To Clipboard" })
+vim.keymap.set("n", "<leader>y", ":silent %w !wslclip<CR>", { desc = "Copy buffer to Windows Clipboard" })
 vim.keymap.set("v", "<leader>y", ":'<'>w !wslclip<CR>", { desc = "Copy selection to Windows Clipboard" })
 
 -- ==========================

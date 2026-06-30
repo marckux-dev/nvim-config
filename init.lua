@@ -25,4 +25,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup("plugins")
 
+-- Snippets propios (después de lazy para que luasnip esté disponible).
+require("snippets")
+
 

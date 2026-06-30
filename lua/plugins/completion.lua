@@ -36,9 +36,39 @@ return {
         first_case_insensitive = true,
       })
 
+      -- En markdown: añadir el diccionario Obsidian al popup.
+      -- Fuera de markdown lo dejamos fuera para que no contamine los
+      -- completados de LSP en código (p. ej. abreviaturas Emmet en .ts/.html
+      -- quedaban sepultadas por entradas españolas con prefijo similar).
+      cmp.setup.filetype("markdown", {
+        sources = cmp.config.sources({
+          { name = "nvim_lsp",   priority = 1000 },
+          { name = "luasnip",    priority = 750 },
+          { name = "buffer",     priority = 500 },
+          { name = "dictionary", priority = 250 },
+          { name = "path",       priority = 100 },
+        }),
+      })
+
       cmp.setup({
         snippet = {
           expand = function(args) luasnip.lsp_expand(args.body) end,
+        },
+        window = {
+          documentation = cmp.config.window.bordered(),
+        },
+        formatting = {
+          format = function(entry, item)
+            item.menu = ({
+              nvim_lsp = "[LSP]",
+              luasnip  = "[Snip]",
+              buffer   = "[Buf]",
+              path     = "[Path]",
+              dictionary = "[Dict]",
+              ["vim-dadbod-completion"] = "[DB]",
+            })[entry.source.name]
+            return item
+          end,
         },
         mapping = cmp.mapping.preset.insert({
           ["<C-Space>"] = cmp.mapping.complete(),
@@ -48,12 +78,12 @@ return {
             else fallback() end
           end, { "i", "s" }),
         }),
-        -- Definición de prioridades (1. Buffer, 2. Otros Buffers, 3. Diccionario propio)
+        -- Definición de prioridades (1. Buffer, 2. Otros Buffers)
         sources = cmp.config.sources({
           { name = "nvim_lsp", priority = 1000 },
           { name = "luasnip",  priority = 750 },
-          { 
-            name = "buffer", 
+          {
+            name = "buffer",
             priority = 500,
             option = {
               -- Leer palabras de todos los buffers abiertos (Prioridad 2)
@@ -62,7 +92,6 @@ return {
               end
             }
           },
-          { name = "dictionary", priority = 250 }, -- ✨ Tu obsidian-es.utf-8.add
           { name = "path",       priority = 100 },
         }),
       })

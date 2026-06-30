@@ -30,8 +30,10 @@ return {
     "astro",
     "vue",
     "svelte",
-    "typescriptreact",
+    "javascript",
     "javascriptreact",
+    "typescript",
+    "typescriptreact",
     "xml",
   },
 
