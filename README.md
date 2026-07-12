@@ -26,7 +26,7 @@ Configuración personal optimizada para **Java (Spring Boot)**, **Flutter/Dart**
 12. [LaTeX (VimTeX)](#latex-vimtex)
 13. [Emmet (HTML / CSS)](#emmet-html--css)
 14. [React / TypeScript / Vite](#react--typescript--vite)
-15. [Asistencia IA (Minuet + Ollama)](#asistencia-ia-minuet--ollama)
+15. [Asistencia IA (Minuet: Ollama / Gemini)](#asistencia-ia-minuet-ollama--gemini)
 16. [Notas y Markdown](#notas-y-markdown)
 17. [Comandos de usuario](#comandos-de-usuario)
 18. [Estructura del repositorio](#estructura-del-repositorio)
@@ -459,12 +459,11 @@ El parser `html_tags` de `nvim-treesitter` (master archivado) crashea en nvim 0.
 
 ---
 
-## Asistencia IA (Minuet + Ollama)
+## Asistencia IA (Minuet: Ollama / Gemini)
 
-Completado de código por IA mediante **minuet-ai.nvim** con backend local **Ollama**. Configurado en `lua/plugins/minuet.lua`.
+Completado de código por IA mediante **minuet-ai.nvim**, con varios backends conmutables en caliente. Plugin en `lua/plugins/minuet.lua`; definición de providers en `lua/minuet-providers.lua`.
 
-- **Modelo:** `qwen2.5-coder:7b` (servido en `http://localhost:11434`), soporta FIM (fill-in-middle).
-- **Provider:** `openai_fim_compatible` (Ollama expone endpoint OpenAI compatible).
+- **Providers disponibles:** `ollama` (local, `qwen2.5-coder:7b` vía endpoint OpenAI compatible en `http://localhost:11434`, FIM) y `gemini` (`gemini-2.5-flash`, requiere `GEMINI_API_KEY` exportada).
 - **Auto-trigger en:** `java`, `python`, `lua`, `javascript`, `typescript`. Otros filetypes: invocar manualmente con el toggle.
 
 Las sugerencias aparecen como **ghost text** (virtual text) tras escribir, sin interferir con el popup de nvim-cmp (`show_on_completion_menu = true`).
@@ -484,8 +483,28 @@ Las sugerencias aparecen como **ghost text** (virtual text) tras escribir, sin i
 | Atajo | Acción |
 |:---|:---|
 | `<leader>am` | Activar / desactivar ghost text en el buffer actual |
+| `<leader>aM` | Elegir provider (menú `vim.ui.select`) |
 
-**Requisitos:** `ollama serve` corriendo y el modelo descargado (`ollama pull qwen2.5-coder:7b`). Verificación rápida de FIM:
+### Cambiar de provider en caliente
+
+| Método | Uso |
+|:---|:---|
+| `:MinuetProvider gemini` | Cambia a Gemini (tab-completion sobre los nombres) |
+| `:MinuetProvider ollama` | Vuelve a Ollama local |
+| `<leader>aM` | Menú interactivo con los providers disponibles |
+| `MINUET_PROVIDER=gemini nvim` | Elige el provider por defecto al arrancar (si no, `ollama`) |
+
+Para añadir un provider nuevo (OpenAI, Claude, Groq…), añade una entrada a la
+tabla `providers` de `lua/minuet-providers.lua` con el bloque
+`provider`/`provider_options` que documenta minuet; el resto de la config
+(ghost text, keymaps, timeout) es común y se hereda.
+
+**Requisitos por provider:**
+
+- `ollama`: `ollama serve` corriendo y el modelo descargado (`ollama pull qwen2.5-coder:7b`).
+- `gemini`: variable de entorno `GEMINI_API_KEY` exportada antes de lanzar nvim.
+
+Verificación rápida de FIM en Ollama:
 
 ```sh
 curl -s -X POST http://localhost:11434/v1/completions \

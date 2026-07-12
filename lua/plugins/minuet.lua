@@ -4,34 +4,32 @@ return {
   event = { "BufReadPre", "BufNewFile" },
   keys = {
     { "<leader>am", "<cmd>Minuet virtualtext toggle<cr>", desc = "Toggle Minuet ghost text" },
+    {
+      "<leader>aM",
+      function()
+        vim.ui.select(vim.tbl_keys(require("minuet-providers").list()), {
+          prompt = "Minuet provider:",
+        }, function(choice)
+          if choice then require("minuet-providers").apply(choice) end
+        end)
+      end,
+      desc = "Elegir provider de Minuet",
+    },
   },
   config = function()
-    require("minuet").setup({
-      request_timeout = 30,
-      provider = "openai_fim_compatible",
-      provider_options = {
-        openai_fim_compatible = {
-          api_key = "TERM",
-          name = "Ollama",
-          end_point = "http://localhost:11434/v1/completions",
-          model = "qwen2.5-coder:7b",
-          optional = {
-            max_tokens = 56,
-            top_p = 0.9,
-          },
-        },
-      },
-      virtualtext = {
-        auto_trigger_ft = { "java", "python", "lua", "javascript", "typescript" },
-        show_on_completion_menu = true,
-        keymap = {
-          accept        = "<M-y>",   -- Alt+y: aceptar sugerencia completa
-          accept_line   = "<M-l>",   -- Alt+l: aceptar sólo la línea
-          prev          = "<M-[>",
-          next          = "<M-]>",
-          dismiss       = "<M-e>",
-        },
-      },
+    -- Configuración multi-provider: ver lua/minuet-providers.lua.
+    -- Cambiar en caliente con :MinuetProvider <nombre> o <leader>aM.
+    -- Default al arrancar: $MINUET_PROVIDER o "ollama".
+    local mp = require("minuet-providers")
+
+    vim.api.nvim_create_user_command("MinuetProvider", function(opts)
+      mp.apply(opts.args)
+    end, {
+      nargs = 1,
+      complete = function() return vim.tbl_keys(mp.list()) end,
+      desc = "Cambiar provider de Minuet en caliente",
     })
+
+    mp.apply(vim.env.MINUET_PROVIDER or "ollama")
   end,
 }
